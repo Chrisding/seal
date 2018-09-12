@@ -27,7 +27,7 @@ suffixEdge2 = '_gtFine_edge.mat';
 %% Setup Parameters
 numCls = 19;
 radius = 2;
-flagBinFile = true;
+flagBinFile = false;
 
 %% Setup Parallel Pool
 numWorker = 12; % Number of matlab workers for parallel computing
@@ -138,41 +138,41 @@ for idxSet = 1:length(setList)
 end
 
 %% Preprocess Demo Video Sequences
-% seqList = dir([dataRoot '/leftImg8bit/demoVideo']);
-% for idxCity = 3:length(seqList)
-%     seqName = seqList(idxCity).name;
-%     if(exist([genDataRoot '/leftImg8bit/demoVideo/' seqName], 'file')==0)
-%         mkdir([genDataRoot '/leftImg8bit/demoVideo/' seqName]);
-%     end
-%     fileList = dir([dataRoot '/leftImg8bit/demoVideo/' seqName '/*.png']);
-%     
-%     % Generate and write data
-%     display(['Set: demoVideo, City: ' seqName])
-%     parfor_progress(length(fileList));
-%     parfor idxFile = 1:length(fileList)
-%         fileName = fileList(idxFile).name(1:end-length(suffixImage));
-%         % Copy image
-%         copyfile([dataRoot '/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage], [genDataRoot '/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage]);
-%         parfor_progress();
-%     end
-%     parfor_progress(0);
-%     
-%     % Create file lists
-%     if(flagBinFile)
-%         fidList = fopen([genDataRoot '/demoVideo_' seqName '.txt'], 'w');
-%     end
-%     dataList = cell(1, 1);
-%     countFile = 0;
-%     for idxFile = 1:length(fileList)
-%         countFile = countFile + 1;
-%         fileName = fileList(idxFile).name(1:end-length(suffixImage));
-%         if(flagBinFile)
-%             fprintf(fidList, ['/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage '\n']);
-%         end
-%         dataList{countFile, 1} = ['/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage];
-%     end
-%     if(flagBinFile)
-%         fclose(fidList);
-%     end
-%     save([genDataRoot '/demoVideo_' seqName '.mat'], 'dataList');
-% end
+seqList = dir([dataRoot '/leftImg8bit/demoVideo']);
+for idxCity = 3:length(seqList)
+    seqName = seqList(idxCity).name;
+    if(exist([genDataRoot '/leftImg8bit/demoVideo/' seqName], 'file')==0)
+        mkdir([genDataRoot '/leftImg8bit/demoVideo/' seqName]);
+    end
+    fileList = dir([dataRoot '/leftImg8bit/demoVideo/' seqName '/*.png']);
+    
+    % Generate and write data
+    display(['Set: demoVideo, City: ' seqName])
+    parfor_progress(length(fileList));
+    parfor idxFile = 1:length(fileList)
+        fileName = fileList(idxFile).name(1:end-length(suffixImage));
+        % Copy image
+        copyfile([dataRoot '/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage], [genDataRoot '/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage]);
+        parfor_progress();
+    end
+    parfor_progress(0);
+    
+    % Create file lists
+    if(flagBinFile)
+        fidList = fopen([genDataRoot '/demoVideo_' seqName '.txt'], 'w');
+    end
+    dataList = cell(1, 1);
+    countFile = 0;
+    for idxFile = 1:length(fileList)
+        countFile = countFile + 1;
+        fileName = fileList(idxFile).name(1:end-length(suffixImage));
+        if(flagBinFile)
+            fprintf(fidList, ['/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage '\n']);
+        end
+        dataList{countFile, 1} = ['/leftImg8bit/demoVideo/' seqName '/' fileName suffixImage];
+    end
+    if(flagBinFile)
+        fclose(fidList);
+    end
+    save([genDataRoot '/demoVideo_' seqName '.mat'], 'dataList');
+end
