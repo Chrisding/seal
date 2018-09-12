@@ -1,3 +1,4 @@
+# Ignored types
 *.txt
 *.bin
 *.png
@@ -7,3 +8,6 @@
 *.pdf
 *.tgz
 *.zip
+
+# Ignored files & folders
+data_orig/
