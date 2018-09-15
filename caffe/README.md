@@ -12,7 +12,7 @@ We have made the following changes from the original Deeplab v2 caffe distributi
 3. Modified image seg data layer and data transformer accordingly to incorporate the ability to read the uint32 format .bin files containing the bitwise multi-label edge ground truths. (Not required by SEAL, but would support the PyCaffe CASENet and the future PyCaffe SEAL)
 4. Modified the solver with improved MatCaffe APIs for better top-level solver control.
 
-### Usage requirement
+### Usage Requirement
 
 1. [matio](https://sourceforge.net/projects/matio/files/matio/1.5.2/) is required to successfully compile this distribution. Please refer to [Deeplab v2](https://bitbucket.org/aquariusjay/deeplab-public-ver2) for more details.
 2. MatCaffe of this distribution only works for certain Matlab versions. The code has been tested successfully on Matlab R2014a under Ubuntu 14.04LTS.
