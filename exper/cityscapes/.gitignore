@@ -1,14 +1,10 @@
 # Ignored types
 *.txt
-*.bin
 *.png
-*.jpg
 *.mat
-*.json
-*.pdf
-*.tgz
-*.zip
 
 # Ignored files & folders
-data_orig/
-data_proc/
+config/solver_*.prototxt
+model/*
+log/*
+result/
