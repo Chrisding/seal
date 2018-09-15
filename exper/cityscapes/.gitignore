@@ -1,10 +1,2 @@
-# Ignored types
-*.txt
-*.png
-*.mat
-
 # Ignored files & folders
-config/solver_*.prototxt
-model/*
-log/*
 result/
