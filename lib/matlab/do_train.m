@@ -48,6 +48,8 @@ solver.net.reshape();
 
 %% Network training
 if(param.resume)
+    assert(par_size == param.state.par_size,...
+        'Current par_size should match the par_size of resume model!');
     epoch = param.state.epoch;
     idx_iter = param.state.idx_iter;
 else
@@ -62,6 +64,7 @@ state.idxRand = [];
 state.idx_iter = 0;
 state.idx_batch = 1;
 state.idx_update = 1;
+state.par_size = par_size; % Store for sanity check when resume
 flag_stop = false;
 solver.IterStart();
 while(1)
@@ -281,7 +284,7 @@ while(1)
                     state.idxRand = idxRand;
                     state.epoch = epoch;
                 end
-                save([param.state_dir '_iter_' num2str(idx_iter) '.mat'], 'state');
+                save([param.solver.snapshot_prefix(2:end-1) '_iter_' num2str(idx_iter) '.mat'], 'state');
             end
             
             % If reaching the maximum iter number, stop training  

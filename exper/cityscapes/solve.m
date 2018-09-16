@@ -28,8 +28,10 @@ assert(ischar(data_dir) && exist(data_dir, 'file')==7,...
 	'Wrong input argument: data_dir must be a valid source data directory.');
 assert(ischar(list_dir) && exist(list_dir, 'file')==2,...
 	'Wrong input argument: list_dir must be a valid path of source data list.');
-assert(ischar(model_init) && exist(model_init, 'file')==2,...
-    'Wrong input argument: model_init must be a valid path of init model.');
+assert(ischar(model_init) && exist(model_init, 'file')==2 &&...
+    (strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'caffemodel') ||...
+     strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'solverstate')),...
+    'Wrong input argument: model_init must be a valid path with caffemodel/solverstate extension.');
 assert((ischar(config)||isempty(config)),...
     'Wrong input argument: config must be either empty or a string.');
 assert(isreal(iter_num) && (iter_num==round(iter_num)) && (iter_num>0),...
@@ -48,16 +50,14 @@ param.mirror = true;
 param.iter_num = iter_num; % Maximum number of iterations
 if(strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'caffemodel'))
     param.resume = false;
-elseif(strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'solverstate'))
-    param.resume = true;
 else
-    error('Init model format must be either caffemodel or solverstate.');
+    param.resume = true;
 end
 % Parse and set input seal hyperparameters
 param = arg_parser(param, varargin); % Determine loss_type, sigma_x, sigma_y, lambda
 param.neigh_size = 16; % Neighborhood size for Markov smoothness prior
 param.max_spatial_cost = 2; % Controls the search range when doing alignment
-param.par_size = 120; % Number of images to solve assignment in parallel
+param.par_size = 400; % Number of images to solve assignment in parallel
 param.vis_align = true;
 % Set sovler hyperparameters
 if(isempty(config))
@@ -78,7 +78,7 @@ param.solver.average_loss = 20;
 param.solver.display = 1;
 param.solver.momentum = 0.9;
 param.solver.weight_decay = 0.0005;
-param.solver.snapshot = 40;
+param.solver.snapshot = 1000;
 param.solver.snapshot_prefix = ['"model/' config '"'];
 param.solver.solver_mode = 'GPU';
 
@@ -92,9 +92,8 @@ solver_dir = ['./config/solver_' config '.prototxt'];
 gen_solver(solver_dir, param);
 solver = solver_init(gpu_id, solver_dir, model_init, param.resume);
 result_dir = ['./result/train/' config];
-param.state_dir = ['./model/' config];
 if(param.resume)
-    s = load([model_init(1:end-12) '.mat']);
+    s = load([model_init(1:max(strfind(model_init, '.'))-1) '.mat']);
     param.state = s.state;
 else
     net_surgery(solver);
