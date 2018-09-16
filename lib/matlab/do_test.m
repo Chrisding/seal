@@ -5,7 +5,7 @@ fields = fieldnames(s);
 list_test = s.(fields{1});
 
 %% Load color map
-load('./function/colors.mat');
+load(param.colormap);
 colors = 255-colors;
 
 %% Dataset dimensions
