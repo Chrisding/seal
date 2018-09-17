@@ -1,0 +1,2 @@
+# Ignore created solver file
+solver_*.prototxt
