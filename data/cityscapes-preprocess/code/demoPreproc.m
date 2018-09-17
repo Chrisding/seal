@@ -4,15 +4,15 @@
 %
 % Intro:
 % This script is used to:
-% 1. Generate the instance-sensitive edge labels that can be read by SEAL for training
-% 2. Create filelists for the generated data
+% 1. Generate instance-sensitive multi-label semantic edges on the Cityscapes dataset
+% 2. Create filelists for the generated data and labels
 % --------------------------------------------------------
 
 function demoPreproc()
 
 clc; clear; close all;
 
-%% Setup Roots
+%% Setup Directories and Suffixes
 dataRoot = '../data_orig';
 genDataRoot = '../data_proc';
 suffixImage = '_leftImg8bit.png';
@@ -27,7 +27,7 @@ suffixEdge2 = '_gtFine_edge.mat';
 %% Setup Parameters
 numCls = 19;
 radius = 2;
-flagBinFile = false;
+flagBinFile = false; % Optional: Output .bin label files that can be read by PyCaffe CASENet/SEAL
 
 %% Setup Parallel Pool
 numWorker = 12; % Number of matlab workers for parallel computing
@@ -88,23 +88,23 @@ for idxSet = 1:length(setList)
                 % Transform color map to edge map and write
                 edgeMapBin = seg2edge(instIdMap, radius, [2 3]', 'regular'); % Avoid generating edges on "rectification border" (labelId==2) and "out of roi" (labelId==3)
                 [height, width, ~] = size(trainIdMap);
-                edgeMapCat = zeros(height, width, 'uint32');
                 labelEdge = cell(numCls, 1);
+                labelEdge2 = zeros(height, width, 'uint32');
                 for idxCls = 1:numCls
                     idxSeg = trainIdMap == idxCls-1;
                     if(sum(idxSeg(:))~=0)
                         segMap = zeros(size(instIdMap));
                         segMap(idxSeg) = instIdMap(idxSeg);
                         idxEdge = seg2edge_fast(segMap, edgeMapBin, radius, [], 'regular');
-                        edgeMapCat(idxEdge) = edgeMapCat(idxEdge) + 2^(idxCls-1);
                         labelEdge{idxCls, 1} = sparse(idxEdge);
+                        labelEdge2(idxEdge) = labelEdge2(idxEdge) + 2^(idxCls-1);
                     else
                         labelEdge{idxCls, 1} = sparse(false(height, width));
                     end
                 end
-                if(flagBinFile) % Optional: Output .bin label files that can be read by PyCaffe CASENet
+                if(flagBinFile)
                     fidEdge = fopen([genDataRoot '/gtFine/' setName '/' cityName '/' fileName suffixEdge1], 'w');
-                    fwrite(fidEdge, edgeMapCat', 'uint32'); % Important! Transpose input matrix to become row major
+                    fwrite(fidEdge, labelEdge2', 'uint32'); % Important! Transpose input matrix to become row major
                     fclose(fidEdge);
                 end
                 savelabeledge([genDataRoot '/gtFine/' setName '/' cityName '/' fileName suffixEdge2], labelEdge); % parfor does not support directly using save.
