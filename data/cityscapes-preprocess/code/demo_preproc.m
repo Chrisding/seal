@@ -8,7 +8,7 @@
 % 2. Create filelists for the generated data and labels
 % --------------------------------------------------------
 
-function demoPreproc()
+function demo_preproc()
 
 clc; clear; close all;
 

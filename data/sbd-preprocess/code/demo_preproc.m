@@ -9,7 +9,7 @@
 % 3. Create filelists for the augmented data and labels
 % --------------------------------------------------------
 
-function demoPreproc()
+function demo_preproc()
 
 clc; clear; close all;
 
