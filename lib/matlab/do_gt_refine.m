@@ -398,7 +398,7 @@ for idx_batch = 1:num_batch
                 end
             end
         end
-        savelabeledge(labelEdge, [label_dir '/' file_name{idx_train} '.mat']);
+        savelabeledge([label_dir '/' file_name{idx_train} '.mat'], labelEdge);
     end
     time_align = toc;
     if(mrf_flag)

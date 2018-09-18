@@ -13,6 +13,10 @@ function demo_preproc()
 
 clc; clear; close all;
 
+%% Add library paths
+path = genpath('../../../lib/matlab');
+addpath(path);
+
 %% Setup Directories
 dataRoot = '../data_orig';
 genDataRoot = '../data_proc';
@@ -41,7 +45,7 @@ else
 end
 
 %% Generate Preprocessed Dataset
-setList = {'train', 'val'};
+setList = {'val'};
 for setID = 1:length(setList)
     setName = setList{1, setID};
     % Create output directories
@@ -185,12 +189,12 @@ for setID = 1:length(setList)
     disp(['Creating ' setName ' set file lists'])
     if(strcmp(setName, 'train'))
         if(flagBinFile)
-            fidListTrainValAug = fopen([genDataRoot '/listTrainValAug.txt'], 'w');
-            fidListTrainVal = fopen([genDataRoot '/listTrainVal.txt'], 'w');
-            fidListTrainAug = fopen([genDataRoot '/listTrainAug.txt'], 'w');
-            fidListTrain = fopen([genDataRoot '/listTrain.txt'], 'w');
-            fidListValAug = fopen([genDataRoot '/listValAug.txt'], 'w');
-            fidListVal = fopen([genDataRoot '/listVal.txt'], 'w');
+            fidListTrainValAug = fopen([genDataRoot '/trainval_aug.txt'], 'w');
+            fidListTrainVal = fopen([genDataRoot '/trainval.txt'], 'w');
+            fidListTrainAug = fopen([genDataRoot '/train_aug.txt'], 'w');
+            fidListTrain = fopen([genDataRoot '/train.txt'], 'w');
+            fidListValAug = fopen([genDataRoot '/val_aug.txt'], 'w');
+            fidListVal = fopen([genDataRoot '/val.txt'], 'w');
         end
         listTrainValAug = cell(countFile*numScale, 2);
         listTrainVal = cell(countFile, 2);
@@ -206,7 +210,7 @@ for setID = 1:length(setList)
         countVal = 0;
     else
         if(flagBinFile)
-            fidListTest = fopen([genDataRoot '/listTest.txt'], 'w');
+            fidListTest = fopen([genDataRoot '/test.txt'], 'w');
         end
         listTest = cell(countFile, 2);
         countTest = 0;
@@ -312,7 +316,7 @@ for setID = 1:length(setList)
             fclose(fidListVal);
         end
     else
-        save([genDataRoot '/listTest.mat'], 'listTest');
+        save([genDataRoot '/test.mat'], 'listTest');
         if(flagBinFile)
             fclose(fidListTest);
         end

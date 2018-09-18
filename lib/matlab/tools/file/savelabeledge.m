@@ -1,2 +1,2 @@
-function savelabeledge(labelEdge, fullfilename)
+function savelabeledge(fullfilename, labelEdge)
 save(fullfilename, 'labelEdge');

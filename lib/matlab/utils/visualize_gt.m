@@ -1,34 +1,41 @@
-clc; clear; close all;
-path = genpath('./function');
-addpath(path);
+function visualize_gt(file_dir, list_dir, color_dir, vis_dir)
+%% Setup Parallel Pool
+num_worker = 12; % Number of matlab workers for parallel computing
+matlabVer = version('-release');
+if( str2double(matlabVer(1:4)) > 2013 || (str2double(matlabVer(1:4)) == 2013 && strcmp(matlabVer(5), 'b')) )
+    delete(gcp('nocreate'));
+    parpool('local', num_worker);
+else
+    if(matlabpool('size')>0) %#ok<*DPOOL>
+        matlabpool close
+    end
+    matlabpool open 8
+end
 
-delete(gcp('nocreate'));
-parpool('local', 36);
-
-%% Set directories
-root_gt = '/home/datasets/cityscapes_aug/edge/label_inst/data_gen';
-vis_dir = './result/visualization/gt_color/val';
-mkdir(vis_dir);
-
-%% Load inputs
-s = load([root_gt '/val_edgeCat.mat']);
+%% Load Inputs
+s = load(list_dir);
 names = fieldnames(s);
-list_gt = s.(names{1});
-load('./function/colors.mat');
+file_list = s.(names{1});
+num_file = size(file_list, 1);
+img_list = cell(num_file, 1);
+gt_list = cell(num_file, 1);
+for idx_file = 1:num_file
+    img_list{idx_file} = file_list{idx_file, 1};
+    gt_list{idx_file} = file_list{idx_file, 2};
+end
+s = load(color_dir);
+names = fieldnames(s);
+colors = s.(names{1});
 
-%% Main loop
-num_gt = size(list_gt, 1);
-for idx_gt = 1:num_gt
-    pos = max(strfind(list_gt{idx_gt, 2}, '/'));
-    fileName = list_gt{idx_gt, 2}(pos+1:end-4);
-    fileNameOut = [fileName(1:end-15) '_leftImg8bit.png'];
-    disp(['Visualizing file id: ' num2str(idx_gt) ' file name: ' fileName])
-    s = load([root_gt list_gt{idx_gt, 2}]);
+%% Main Program
+mkdir(vis_dir);
+parfor_progress(num_file);
+parfor idx_gt = 1:num_file
+    fileName = gt_list{idx_gt}(max(strfind(gt_list{idx_gt}, '/'))+1:max(strfind(gt_list{idx_gt}, '.'))-1);
+    s = load([file_dir gt_list{idx_gt}]);
     names = fieldnames(s);
     gt = s.(names{1});
-    img = imread([root_gt list_gt{idx_gt, 1}]);
-    [height, width, chn] = size(img);
-    img_vis = double(reshape(img, [height*width, chn]))./255;
+    [height, width] = size(gt{1});
     bdry_vis = zeros(height*width, 3);
     bdry_sum = zeros(height*width, 1);
     num_cls = size(gt, 1);
@@ -40,7 +47,10 @@ for idx_gt = 1:num_gt
     idx_bdry = bdry_sum > 0;
     bdry_vis(idx_bdry, :) = bdry_vis(idx_bdry, :)./repmat(bdry_sum(idx_bdry), [1, 3]);
     bdry_vis(~idx_bdry, :) = 1;
-    % bdry_vis(~idx_bdry, :) = img_vis(~idx_bdry, :);
     bdry_vis = reshape(bdry_vis, [height, width, 3]);
-    imwrite(bdry_vis, [vis_dir '/' fileNameOut], 'png');
+    imwrite(bdry_vis, [vis_dir '/' fileName], 'png');
+    parfor_progress();
+end
+parfor_progress(0);
+
 end

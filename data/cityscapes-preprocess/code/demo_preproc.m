@@ -9,8 +9,11 @@
 % --------------------------------------------------------
 
 function demo_preproc()
-
 clc; clear; close all;
+
+%% Add library paths
+path = genpath('../../../lib/matlab');
+addpath(path);
 
 %% Setup Directories and Suffixes
 dataRoot = '../data_orig';
