@@ -28,7 +28,9 @@ names = fieldnames(s);
 colors = s.(names{1});
 
 %% Main Program
-mkdir(vis_dir);
+if(~exist(vis_dir, 'file'))
+    mkdir(vis_dir);
+end
 parfor_progress(num_file);
 parfor idx_gt = 1:num_file
     fileName = gt_list{idx_gt}(max(strfind(gt_list{idx_gt}, '/'))+1:max(strfind(gt_list{idx_gt}, '.'))-1);
@@ -48,7 +50,7 @@ parfor idx_gt = 1:num_file
     bdry_vis(idx_bdry, :) = bdry_vis(idx_bdry, :)./repmat(bdry_sum(idx_bdry), [1, 3]);
     bdry_vis(~idx_bdry, :) = 1;
     bdry_vis = reshape(bdry_vis, [height, width, 3]);
-    imwrite(bdry_vis, [vis_dir '/' fileName], 'png');
+    imwrite(bdry_vis, [vis_dir '/' fileName '.png'], 'png');
     parfor_progress();
 end
 parfor_progress(0);

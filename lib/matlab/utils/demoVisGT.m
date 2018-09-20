@@ -1,3 +1,5 @@
+clc; clear; close all;
+
 %% Visualize SBD GTs
 visualize_gt('../../../data/sbd-preprocess/data_proc', '../../../data/sbd-preprocess/data_proc/train.mat', './colors_sbd.mat', '../../../exper/sbd/result/vis/train')
 visualize_gt('../../../data/sbd-preprocess/data_proc', '../../../data/sbd-preprocess/data_proc/val.mat', './colors_sbd.mat', '../../../exper/sbd/result/vis/val')
