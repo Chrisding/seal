@@ -8,7 +8,7 @@
 % 2. Create filelists for the generated data and labels
 % --------------------------------------------------------
 
-function demo_preproc()
+function demoPreproc()
 clc; clear; close all;
 
 %% Add library paths
@@ -74,6 +74,7 @@ for idxSet = 1:length(setList)
         display(['Set: ' setName ', City: ' cityName])
         parfor_progress(length(fileList));
         parfor idxFile = 1:length(fileList)
+        	assert(strcmp(fileList(idxFile).name(end-length(suffixImage)+1:end), suffixImage), 'suffixImage mismatch!')
             fileName = fileList(idxFile).name(1:end-length(suffixImage));
             % Copy image
             copyfile([dataRoot '/leftImg8bit/' setName '/' cityName '/' fileName suffixImage], [genDataRoot '/leftImg8bit/' setName '/' cityName '/' fileName suffixImage]);

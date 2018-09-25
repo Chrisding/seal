@@ -9,7 +9,7 @@
 % 3. Create filelists for the augmented data and labels
 % --------------------------------------------------------
 
-function demo_preproc()
+function demoPreproc()
 
 clc; clear; close all;
 
@@ -93,6 +93,7 @@ for setID = 1:length(setList)
             s = load('./seed.mat');
             fields = fieldnames(s);
             valSet = s.(fields{1});
+            numVal = sum(valSet); % Overwrite input numVal
         else
             valSet = false(countFile, 1);
             idxRand = randperm(countFile);

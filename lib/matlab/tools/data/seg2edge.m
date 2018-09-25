@@ -1,4 +1,5 @@
-% This function takes an input segment, producing binary bdrys.
+% This function takes an input segment and produces binary bdrys.
+% Multi-channel input segments are supported by the function.
 function [idxEdge] = seg2edge(seg, radius, labelIgnore, edge_type)
 % Get dimensions
 [height, width, chn] = size(seg);
