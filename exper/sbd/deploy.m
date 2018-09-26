@@ -38,7 +38,7 @@ param.colormap = '../../lib/matlab/utils/colors_sbd.mat';
 %% Main body
 deploy_dir = './config/deploy.prototxt';
 if(isempty(result_dir))
-	result_dir = ['./result/test/' list_dir(max(strfind(list_dir, '/'))+1:max(strfind(list_dir, '.')-1))...
+	result_dir = ['./result/deploy/' list_dir(max(strfind(list_dir, '/'))+1:max(strfind(list_dir, '.')-1))...
 				  '/' model_init(max(strfind(model_init, '/'))+1:max(strfind(model_init, '.'))-1)];
 end
 net = net_init(gpu_id, deploy_dir, model_init);

@@ -10,7 +10,6 @@
 % data_dir: root directory of source data
 % list_dir: source data list
 % model_init: init model directory
-% result_dir: directory to put test results
 % gpu_id: which gpu to use
 % --------------------------------------------------------
 
@@ -31,15 +30,15 @@ assert(isreal(gpu_id) && (gpu_id==round(gpu_id)),...
     'Wrong input argument: gpu id must be an integer.');
 
 %% Pre-set parameters
-param.num_cls = 19; % Important! Need to be the same with GT!
+param.num_cls = 20; % Important! Need to be the same with GT!
 param.mean = [122.675 116.669 104.008];
-param.crop_size_test = 632;
-param.colormap = '../../lib/matlab/utils/colors_city.mat';
+param.crop_size_test = 512;
+param.colormap = '../../lib/matlab/utils/colors_sbd.mat';
 
 %% Main body
 deploy_dir = './config/deploy.prototxt';
 if(isempty(result_dir))
-	result_dir = ['./result/deploy/' list_dir(max(strfind(list_dir, '/'))+1:max(strfind(list_dir, '.')-1))...
+	result_dir = ['./result/test/' list_dir(max(strfind(list_dir, '/'))+1:max(strfind(list_dir, '.')-1))...
 				  '/' model_init(max(strfind(model_init, '/'))+1:max(strfind(model_init, '.'))-1)];
 end
 net = net_init(gpu_id, deploy_dir, model_init);

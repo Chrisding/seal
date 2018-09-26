@@ -1,4 +1,4 @@
-function do_gt_refine(solver, param, data_dir, list_dir, result_dir)
+function do_refine(solver, param, data_dir, list_dir, result_dir)
 %% load file list
 s = load(list_dir);
 fields = fieldnames(s);

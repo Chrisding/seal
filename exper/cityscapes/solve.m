@@ -99,7 +99,7 @@ end
 solver_dir = ['./config/solver_' config '.prototxt'];
 gen_solver(solver_dir, param);
 solver = solver_init(gpu_id, solver_dir, model_init, param.resume);
-result_dir = ['./result/train/' config];
+result_dir = ['./result/solve/' config];
 if(param.resume)
     s = load([model_init(1:max(strfind(model_init, '.'))-1) '.mat']);
     param.state = s.state;
