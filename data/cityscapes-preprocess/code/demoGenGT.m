@@ -59,7 +59,6 @@ for idx = 1:length(genDataRoot)
             display(['Set: ' setName ', City: ' cityName])
             parfor_progress(length(fileList));
             parfor idxFile = 1:length(fileList)
-                countFile = countFile + 1;
                 assert(strcmp(fileList(idxFile).name(end-length(suffixImage)+1:end), suffixImage), 'suffixImage mismatch!')
                 fileName = fileList(idxFile).name(1:end-length(suffixImage));
                 if(idx==1)
