@@ -24,7 +24,6 @@ if(mkv_flag)
     outlier_cost = 100*(128 + max_spatial_cost + lambda*(2*neigh_size+1)^2*10);
 end
 vis_align = param.vis_align;
-
 image_mean = param.mean;
 crop_size = param.crop_size_train;
 par_size = param.par_size;
