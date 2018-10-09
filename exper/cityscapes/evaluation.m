@@ -30,7 +30,7 @@ path = genpath('../../lib/matlab');
 addpath(path);
 
 %% Set parameters
-num_cls = 20;
+num_cls = 19;
 
 %% Setup Parallel Pool
 delete(gcp('nocreate'));
@@ -45,7 +45,7 @@ list_eval = s.(names{1});
 if(exist(result_dir, 'file')==0)
     mkdir(result_dir);
 end
-categories = categories_sbd();
+categories = categories_city();
 for idx_cls = 1:num_cls
     fprintf('Benchmarking boundaries for category %d: %s\n', idx_cls, categories{idx_cls});
     result_cls = benchmark_category(list_eval, eval_dir, gt_dir, idx_cls, margin, nthresh, thinpb, maxDist);

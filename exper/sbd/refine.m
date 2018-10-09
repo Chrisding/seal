@@ -40,7 +40,6 @@ param.lambda = 0.02;
 param.neigh_size = 16; % Neighborhood size for Markov smoothness prior
 param.max_spatial_cost = 4.5; % Controls the search range when doing alignment
 param.par_size = 300;
-param.colormap = '../../lib/matlab/utils/colors_sbd.mat';
 
 %% Main body
 deploy_dir = './config/deploy.prototxt';

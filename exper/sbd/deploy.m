@@ -33,7 +33,7 @@ assert(isreal(gpu_id) && (gpu_id==round(gpu_id)),...
 param.num_cls = 20; % Important! Need to be the same with GT!
 param.mean = [122.675 116.669 104.008];
 param.crop_size_test = 512;
-param.colormap = '../../lib/matlab/utils/colors_sbd.mat';
+param.colormap = '../../lib/matlab/utils/dataset/colors_sbd.mat';
 
 %% Main body
 deploy_dir = './config/deploy.prototxt';

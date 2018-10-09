@@ -10,14 +10,14 @@
 % data_dir: root directory of source data
 % list_dir: source data list
 % model_init: init model directory
-% config: string to encode param config and model/result names
+% prefix: string to encode param config and model/result names
 % iter_num: maximum number of iterations
 % base_lr: initial learning rate
 % gpu_id: which gpu to use
 % varargin: {loss_type, (sigma_x), (sigma_y), (lambda)}
 % --------------------------------------------------------
 
-function solve(data_dir, list_dir, model_init, config, iter_num, base_lr, gpu_id, varargin)
+function solve(data_dir, list_dir, model_init, prefix, iter_num, base_lr, gpu_id, varargin)
 %% Add library paths
 addpath('../../caffe/matlab');
 path = genpath('../../lib/matlab');
@@ -32,8 +32,8 @@ assert(ischar(model_init) && exist(model_init, 'file')==2 &&...
     (strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'caffemodel') ||...
      strcmp(model_init(max(strfind(model_init, '.'))+1:end), 'solverstate')),...
     'Wrong input argument: model_init must be a valid path with caffemodel/solverstate extension.');
-assert((ischar(config)||isempty(config)),...
-    'Wrong input argument: config must be either empty or a string.');
+assert((ischar(prefix)||isempty(prefix)),...
+    'Wrong input argument: prefix must be either empty or a string.');
 assert(isreal(iter_num) && (iter_num==round(iter_num)) && (iter_num>0),...
     'Wrong input argument: iter_number must be a positive integer.');
 assert(isreal(base_lr) && (base_lr>0),...
@@ -60,9 +60,9 @@ param.max_spatial_cost = 4.5; % Controls the search range when doing alignment
 param.par_size = 300; % Number of images to solve assignment in parallel
 param.vis_align = true;
 % Set sovler hyperparameters
-if(isempty(config))
-    set_name = list_dir(max(strfind(list_dir, '/'))+1:end-4);
-	config = param2config(set_name, param);
+if(isempty(prefix))
+    set_name = list_dir(max(strfind(list_dir, '/'))+1:max(strfind(list_dir, '.'))-1);
+	prefix = param2config(set_name, param);
 end
 if(strcmp(param.loss_type, 'unweight'))
     param.solver.train_net = '"config/model_unweight.prototxt"';
@@ -79,27 +79,19 @@ param.solver.display = 1;
 param.solver.momentum = 0.9;
 param.solver.weight_decay = 0.0005;
 param.solver.snapshot = 1000;
-param.solver.snapshot_prefix = ['"model/' config '"'];
+param.solver.snapshot_prefix = ['"model/' prefix '"'];
 param.solver.solver_mode = 'GPU';
 
 %% Setup Parallel Pool
 num_worker = 12; % Number of matlab workers for parallel computing
-matlabVer = version('-release');
-if( str2double(matlabVer(1:4)) > 2013 || (str2double(matlabVer(1:4)) == 2013 && strcmp(matlabVer(5), 'b')) )
-    delete(gcp('nocreate'));
-    parpool('local', num_worker);
-else
-    if(matlabpool('size')>0) %#ok<*DPOOL>
-        matlabpool close
-    end
-    matlabpool open 8
-end
+delete(gcp('nocreate'));
+parpool('local', num_worker);
 
 %% Main program
-solver_dir = ['./config/solver_' config '.prototxt'];
+solver_dir = ['./config/solver_' prefix '.prototxt'];
 gen_solver(solver_dir, param);
 solver = solver_init(gpu_id, solver_dir, model_init, param.resume);
-result_dir = ['./result/solve/' config];
+result_dir = ['./result/solve/' prefix];
 if(param.resume)
     s = load([model_init(1:max(strfind(model_init, '.'))-1) '.mat']);
     param.state = s.state;

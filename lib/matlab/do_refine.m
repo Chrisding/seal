@@ -4,10 +4,6 @@ s = load(list_dir);
 fields = fieldnames(s);
 list_train = s.(fields{1});
 
-%% Load color map
-load(param.colormap);
-colors = 255-colors;
-
 %% Dataset dimensions
 epoch_size = size(list_train, 1);
 
