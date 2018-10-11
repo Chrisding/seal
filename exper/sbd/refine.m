@@ -41,6 +41,11 @@ param.neigh_size = 16; % Neighborhood size for Markov smoothness prior
 param.max_spatial_cost = 4.5; % Controls the search range when doing alignment
 param.par_size = 300;
 
+%% Setup Parallel Pool
+num_worker = 12; % Number of matlab workers for parallel computing
+delete(gcp('nocreate'));
+parpool('local', num_worker);
+
 %% Main body
 deploy_dir = './config/deploy.prototxt';
 if(isempty(result_dir))
