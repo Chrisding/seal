@@ -81,7 +81,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	tar -xvzf data_orig/sbd.tar.gz -C data_orig && rm data_orig/sbd.tar.gz
 	```
     
-2. Perform data augmentation and generate training edge labels by running the following code:
+2. Perform data augmentation and generate training edge labels by running the following command:
 
 	```Matlab
 	# In Matlab Command Window
@@ -89,15 +89,13 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	```
     This will create augmented images and instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
 
-3. Generate edge ground truths for evaluation.
+3. Generate edge ground truths for evaluation by running the following command:
 
 	```Matlab
 	# In Matlab Command Window
   	run code/demoGenGT.m
   	```
-    This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
-
-    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S, and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
+    This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data. We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S, and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
 
 	```Shell
 	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
@@ -112,7 +110,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	unzip data_orig/leftImg8bit_demoVideo.zip -d data_orig && rm data_orig/leftImg8bit_demoVideo.zip
 	```
 
-2. Generate training edge labels by running the following code:
+2. Generate training edge labels by running the following command:
 
 	```Matlab
 	# In Matlab Command Window
@@ -120,7 +118,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	```
 	This will create instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
 
-3. Generate edge ground truths for evaluation.
+3. Generate edge ground truths for evaluation by running the following command:
 
 	```Matlab
 	# In Matlab Command Window
@@ -131,6 +129,17 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 #### Part 2: Train
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**
 
+1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL). The warm-up init models can be obtained by 
+
+To train the SEAL model, run the following command:
+
+    ```Shell
+    cd $SEAL_ROOT/caffe
+    # Follow the Caffe installation instructions to install all required packages:
+    # http://caffe.berkeleyvision.org/installation.html
+    # Follow the instructions to install matio:
+    # https://sourceforge.net/projects/matio/files/matio/1.5.2/
+    make all -j8 && make matcaffe
 
 
 ### Video Demo
