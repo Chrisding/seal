@@ -103,7 +103,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	```
 
 **Cityscapes Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/cityscapes-preprocess/`**
-1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "" from the Cityscapes website to **`data_orig/`**, and unzip them:
+1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "" from the [Cityscapes website](https://www.cityscapes-dataset.com/) to **`data_orig/`**, and unzip them:
 
 	```Shell
 	unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
