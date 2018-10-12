@@ -10,6 +10,8 @@ SEAL is released under the MIT License (refer to the LICENSE file for details).
 0. [Introduction](#introduction)
 0. [Citation](#citation)
 0. [Requirements](#requirements)
+0. [Installation](#installation)
+0. [Usage](#usage)
 0. [Video Demo](#video-demo)
 0. [Contact](#contact)
 
@@ -47,6 +49,83 @@ If you find **SEAL** useful in your research, please consider to cite the follow
 ### Requirements
 1. Requirements for `Matlab`
 2. Requirements for `Caffe` and `matcaffe` (see: [Caffe installation instructions](http://caffe.berkeleyvision.org/installation.html) and [SEAL Caffe distribution readme](https://github.com/Chrisding/seal/tree/master/caffe))
+
+
+### Installation
+1. Clone the SEAL repository. We'll call the directory that you cloned SEAL as **`SEAL_ROOT`**.
+
+    ```Shell
+    git clone --recursive https://github.com/Chrisding/seal.git
+    ```
+
+2. Build Caffe and matcaffe
+
+    ```Shell
+    cd $SEAL_ROOT/caffe
+    # Follow the Caffe installation instructions to install all required packages:
+    # http://caffe.berkeleyvision.org/installation.html
+    # Follow the instructions to install matio:
+    # https://sourceforge.net/projects/matio/files/matio/1.5.2/
+    make all -j8 && make matcaffe
+
+
+### Usage
+
+Upon successfully compiling the SEAL Caffe distribution, you can run the following experiments.
+
+#### Part 1: Preprocessing
+**SBD Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/sbd-preprocess/`**
+1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo, and place the tarball "sbd.tar.gz" in **`data_orig/`**. Run the following command:
+
+	```Shell
+	tar -xvzf data_orig/sbd.tar.gz -C data_orig && rm data_orig/sbd.tar.gz
+	```
+    
+2. Perform data augmentation and generate training edge labels by running the following code:
+
+	```Matlab
+	# In Matlab Command Window
+	run code/demoPreproc.m
+	```
+    This will create augmented images and instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
+
+3. Generate edge ground truths for evaluation.
+
+	```Matlab
+	# In Matlab Command Window
+  	run code/demoGenGT.m
+  	```
+    This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
+    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S, and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
+
+	```Shell
+	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
+	```
+
+**Cityscapes Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/cityscapes-preprocess/`**
+1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "" from the Cityscapes website to **`data_orig/`**, and unzip them:
+
+	```Shell
+	unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
+	unzip data_orig/leftImg8bit_trainvaltest.zip -d data_orig && rm data_orig/leftImg8bit_trainvaltest.zip
+	unzip data_orig/leftImg8bit_demoVideo.zip -d data_orig && rm data_orig/leftImg8bit_demoVideo.zip
+	```
+
+2. Generate training edge labels by running the following code:
+
+	```Matlab
+	# In Matlab Command Window
+	run code/demoPreproc.m
+	```
+	This will create instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
+
+3. Generate edge ground truths for evaluation.
+
+	```Matlab
+	# In Matlab Command Window
+  	run code/demoGenGT.m
+  	```
+    This will create two folders (**`gt_thin/`** and **`gt_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths.
 
 
 ### Video Demo
