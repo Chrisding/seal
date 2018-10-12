@@ -96,6 +96,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	run code/demoGenGT.m
   	```
     This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
+
     We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S, and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
 
 	```Shell
@@ -103,7 +104,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	```
 
 **Cityscapes Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/cityscapes-preprocess/`**
-1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "" from the [Cityscapes website](https://www.cityscapes-dataset.com/) to **`data_orig/`**, and unzip them:
+1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "leftImg8bit_demoVideo.zip" from the [Cityscapes website](https://www.cityscapes-dataset.com/) to **`data_orig/`**, and unzip them:
 
 	```Shell
 	unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
@@ -126,6 +127,10 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	run code/demoGenGT.m
   	```
     This will create two folders (**`gt_thin/`** and **`gt_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths.
+
+#### Part 2: Train
+**Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**
+
 
 
 ### Video Demo
