@@ -40,7 +40,7 @@ If you find **SEAL** useful in your research, please consider to cite the follow
 
 	@inproceedings{yu2017casenet,
 	 title={uppercase{CASEN}et: Deep Category-Aware Semantic Edge Detection},
-	 author={Z. Yu and C. Feng and M. Y. Liu and S. Ramalingam},
+	 author={Yu, Zhiding and Feng, Chen and Liu, Ming-Yu and Ramalingam, Srikumar},
 	 booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
 	 year={2017}
 	}
@@ -75,7 +75,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
 #### Part 1: Preprocessing
 **SBD Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/sbd-preprocess/`**
-1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo, and place the tarball "sbd.tar.gz" in **`data_orig/`**. Run the following command:
+1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from [Google Drive](https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo), and place the tarball "sbd.tar.gz" in **`data_orig/`**. Run the following command:
 
 	```Shell
 	tar -xvzf data_orig/sbd.tar.gz -C data_orig && rm data_orig/sbd.tar.gz
@@ -97,7 +97,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	```
     This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
 
-    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S, and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
+    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S), and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
 
 	```Shell
 	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
