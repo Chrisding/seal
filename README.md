@@ -67,6 +67,7 @@ If you find **SEAL** useful in your research, please consider to cite the follow
     # Follow the instructions to install matio:
     # https://sourceforge.net/projects/matio/files/matio/1.5.2/
     make all -j8 && make matcaffe
+    ```
 
 
 ### Usage
@@ -131,17 +132,17 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 #### Part 2: Train
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**
 
-1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL). The warm-up init models can be obtained by 
-
-To train the SEAL model, run the following command:
+1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file "model_init.zip" in **`model/`**. Run the following command:
 
     ```Shell
-    cd $SEAL_ROOT/caffe
-    # Follow the Caffe installation instructions to install all required packages:
-    # http://caffe.berkeleyvision.org/installation.html
-    # Follow the instructions to install matio:
-    # https://sourceforge.net/projects/matio/files/matio/1.5.2/
-    make all -j8 && make matcaffe
+    unzip model/model_init.zip -d model
+    ```
+
+2. To train the SEAL model, run the following command:
+
+    ```Shell
+    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 40000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
+    ```
 
 
 ### Video Demo
