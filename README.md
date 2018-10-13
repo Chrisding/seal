@@ -186,6 +186,10 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 Try Try Try
 
     ```Shell
+    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
+    ```
+
+    ```Shell
     solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
     ```
 
