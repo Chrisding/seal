@@ -146,7 +146,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     solve(<data_root>, <file_list_path>, <init_model_path>, <snapshot_prefix>, <iter_num>, <lr>, <gpu_id>, <loss_type>, <sigma_x>, <sigma_y>, <lambda>)
     ```
 
-    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive/non-instance-sensitive edge labels from the original SBD data, run the following commands:
+    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive(IS)/non-instance-sensitive(non-IS) edge labels from the original SBD data, run the following commands:
 
     ```Shell
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst.txt
@@ -155,7 +155,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     
     This will output model snapshots in the **`model/`** folder and log files in the **`log/`** folder. You may leave **`snapshot_prefix`** as empty (**`[]`**), which will automatically give a prefix composed by file list name and param configs. We assume training on 12G memory GPUs (such as TitanX/XP) without any other occupation. If you happen to have smaller GPU memories, consider decreasing the default 472x472 training crop size in **`solve`**. The new size must be dividable by 8.
 
-    You can remove **`lambda`** or set it to 0 to train vanilla SEAL without Markov smoothness. If you set either/both **`sigma_x`** and **`sigma_y`** to 0, or simply remove them and **`lambda`**, the code will train without any alignment. For example, CASENet/CASENet-S/CASENet-C with instance-sensitive labels can be obtained by running the following commands, respectively:
+    You can also remove **`lambda`** or set it to 0 to train vanilla SEAL without Markov smoothness. If you set either/both **`sigma_x`** and **`sigma_y`** to 0, or simply remove them and **`lambda`**, the code will train without any alignment. For example, CASENet/CASENet-S/CASENet-C with IS labels can be obtained by running the following commands, respectively:
 
     ```Shell
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init.caffemodel', 'model_inst_casenet', 22000, 1.0*10^-7, <gpu_id>, 'reweight')" 2>&1 | tee ./log/casenet_inst.txt
@@ -163,7 +163,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_crf.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_casenet-c', 22000, 5.0*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/casenet-c_inst.txt
     ```
 
-    The command to obtain CASENet/CASENet-S/CASENet-C with non-instance-sensitive labels can be similarly derived, simply by changing the input file_lists to their cls counterparts.
+    The command to obtain CASENet/CASENet-S/CASENet-C with non-IS labels can be similarly derived, simply by changing the input file_lists to their cls counterparts.
 
 ### Video Demo
 [![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)
