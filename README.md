@@ -129,7 +129,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	```
     This will create two folders (**`gt_thin/`** and **`gt_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths.
 
-#### Part 2: Train
+#### Part 2: Training
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**
 
 1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file "model_init.zip" in **`model/`**. Run the following command:
@@ -138,11 +138,19 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     unzip model/model_init.zip -d model
     ```
 
-2. To train the SEAL model, run the following command:
+2. To train the network models, call the **`solve`** function with the following input argument format:
+
+    ```Shell
+    solve(<data_root>, <file_list_path>, <init_model_path>, <snapshot_prefix>, <iter_num>, <lr>, <gpu_id>, <loss_type>, <sigma_x>, <sigma_y>, <lambda>)
+    ```
+
+    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive edge labels from the original SBD data, run the following command:
 
     ```Shell
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst.txt
     ```
+    
+    This will output network snapshots in the **`model/`** folder and a training log file in the **`log/`** folder. Note that we assume training on 12G memory GPUs (such as TitanX or TitanXP) without any other occupation (not even xorg, which may take a few hundred MBs memory from GPU0 when connected with display). If you happen to have smaller memories, consider decrease the default 472x472 training crop size in **`solve`**. The crop size must be dividable by 8.
 
 
 ### Video Demo
