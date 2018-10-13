@@ -138,19 +138,30 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     unzip model/model_init.zip -d model
     ```
 
+    The models **`model_init_inst_warm`** and **`model_init_cls_warm`** are warm-up init models that are obtained by additionally training a few iterations from **`model_init`** with unweighted sigmoid cross-entropy loss and relatively small learning rates. It is used to initialize models that involve unweighted sigmoid cross-entropy loss and stabilize their early training, since the loss is harder to learn than the reweighted one. Alternatively, you can obtain your own warm-up models using the code.
+
 2. To train the network models, call the **`solve`** function with the following input argument format:
 
     ```Shell
     solve(<data_root>, <file_list_path>, <init_model_path>, <snapshot_prefix>, <iter_num>, <lr>, <gpu_id>, <loss_type>, <sigma_x>, <sigma_y>, <lambda>)
     ```
 
-    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive edge labels from the original SBD data, run the following command:
+    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive/non-instance-sensitive edge labels from the original SBD data, run the following commands:
 
     ```Shell
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst.txt
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_cls_orig.mat', './model/model_init_cls_warm.caffemodel', 'model_cls_seal', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_cls.txt
     ```
     
-    This will output network snapshots in the **`model/`** folder and a training log file in the **`log/`** folder. Note that we assume training on 12G memory GPUs (such as TitanX or TitanXP) without any other occupation (not even xorg, which may take a few hundred MBs memory from GPU0 when connected with display). If you happen to have smaller memories, consider decrease the default 472x472 training crop size in **`solve`**. The crop size must be dividable by 8.
+    This will output network snapshots in the **`model/`** folder and training log files in the **`log/`** folder. Note that we assume training on 12G memory GPUs (such as TitanX or TitanXP) without any other occupation. If you happen to have smaller GPU memories, consider decreasing the default 472x472 training crop size in **`solve`**. The crop size must be dividable by 8.
+
+    Similarly, CASENet/CASENet-S/CASENet-C with instance-sensitive labels can be obtained by running the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init.caffemodel', 'model_inst_casenet', 22000, 1.0*10^-7, <gpu_id>, 'reweight')" 2>&1 | tee ./log/casenet_inst.txt
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_casenet-s', 22000, 5.0*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/casenet-s_inst.txt
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_crf.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_casenet-c', 22000, 5.0*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/casenet-c_inst.txt
+    ```
 
 
 ### Video Demo
