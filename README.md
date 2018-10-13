@@ -189,6 +189,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
     ```
 
+#### Part 3: Testing
     Try Try Try
 
     ```Shell
