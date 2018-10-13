@@ -191,6 +191,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
 #### Part 3: Testing
 **Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**. To test the network models, call the **`deploy`** function with the following input argument format:
+
 Try Try Try
 
 	```Shell
