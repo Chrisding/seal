@@ -28,8 +28,9 @@ numVal = 1000; % param not effective when flagSeed is true & seed exists
 flagSeed = true;
 
 %% Setup Parallel Pool
+numWorker = 12; % Number of matlab workers for parallel computing
 delete(gcp('nocreate'));
-parpool('local', 12);
+parpool('local', numWorker);
 
 %% Generate Preprocessed Dataset
 for idx = 1:length(genDataRoot)

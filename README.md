@@ -75,8 +75,8 @@ If you find **SEAL** useful in your research, please consider to cite the follow
 Upon successfully compiling the SEAL Caffe distribution, you can run the following experiments.
 
 #### Part 1: Preprocessing
-**SBD Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/sbd-preprocess/`**
-1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from [Google Drive](https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo), and place the tarball "sbd.tar.gz" in **`data_orig/`**. Run the following command:
+**SBD Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/sbd-preprocess/`**.
+1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from [Google Drive](https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo), and place the tarball **`sbd.tar.gz`** in **`data_orig/`**. Run the following command:
 
 	```Shell
 	tar -xvzf data_orig/sbd.tar.gz -C data_orig && rm data_orig/sbd.tar.gz
@@ -88,7 +88,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	# In Matlab Command Window
 	run code/demoPreproc.m
 	```
-    This will create augmented images and instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
+    This will create augmented images and their **instance-sensitive(inst)**/**non-instance-sensitive(cls)** edge labels for network training in **`data_proc/`**.
 
 3. Generate edge ground truths for evaluation by running the following command:
 
@@ -98,14 +98,14 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	```
     This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
 
-    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S), and place the tarball "gt_reanno.tar.gz" in **`gt_eval/`**. Run the following command:
+    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S), and place the tarball **`gt_reanno.tar.gz`** in **`gt_eval/`**. Run the following command:
 
 	```Shell
 	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
 	```
 
-**Cityscapes Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/cityscapes-preprocess/`**
-1. Download the files "gtFine_trainvaltest.zip", "leftImg8bit_trainvaltest.zip" and "leftImg8bit_demoVideo.zip" from the [Cityscapes website](https://www.cityscapes-dataset.com/) to **`data_orig/`**, and unzip them:
+**Cityscapes Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/cityscapes-preprocess/`**. Note that in this repository, all Cityscapes pipelines are **instance-sensitive** only.
+1. Download the files **`gtFine_trainvaltest.zip`**, **`leftImg8bit_trainvaltest.zip`** and **`leftImg8bit_demoVideo.zip`** from the [Cityscapes website](https://www.cityscapes-dataset.com/) to **`data_orig/`**, and unzip them:
 
 	```Shell
 	unzip data_orig/gtFine_trainvaltest.zip -d data_orig && rm data_orig/gtFine_trainvaltest.zip
@@ -119,7 +119,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 	# In Matlab Command Window
 	run code/demoPreproc.m
 	```
-	This will create instance-sensitive(inst)/non-instance-sensitive(cls) edge labels for network training in **`data_proc/`**.
+	This will create instance-sensitive edge labels for network training in **`data_proc/`**.
 
 3. Generate edge ground truths for evaluation by running the following command:
 
@@ -130,9 +130,9 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     This will create two folders (**`gt_thin/`** and **`gt_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths.
 
 #### Part 2: Training
-**Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**
+**Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
 
-1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file "model_init.zip" in **`model/`**. Run the following command:
+1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
     unzip model/model_init.zip -d model
@@ -146,7 +146,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     solve(<data_root>, <file_list_path>, <init_model_path>, <snapshot_prefix>, <iter_num>, <lr>, <gpu_id>, <loss_type>, <sigma_x>, <sigma_y>, <lambda>)
     ```
 
-    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive(IS)/non-instance-sensitive(non-IS) edge labels from the original SBD data, run the following commands:
+    By choosing the last four input, one could train the models of SEAL and all baselines (CASENet, CASENet-S and CASENet-C) reported in the paper. For example, to train SEAL with instance-sensitive(**`IS`**)/non-instance-sensitive(**`non-IS`**) edge labels from the original SBD data, run the following commands:
 
     ```Shell
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst.txt
@@ -163,7 +163,54 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_crf.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_casenet-c', 22000, 5.0*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/casenet-c_inst.txt
     ```
 
-    The command to obtain CASENet/CASENet-S/CASENet-C with non-IS labels can be similarly derived, simply by changing the input file_lists to their cls counterparts.
+    The command to obtain CASENet/CASENet-S/CASENet-C with non-IS edge labels can be similarly derived, simply by changing all **`inst`** suffixes to **`cls`**. You can also download all pretrained models from [Google Drive](https://drive.google.com/open?id=16WNjpYVdXPzBNuU9zcVPQNogPm9rp5xd).
+
+**Train on Cityscapes:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/cityscapes/`**.
+
+1. Download the init model and warm-up init models from [Google Drive](https://drive.google.com/open?id=1vLfjeSeX2jiJZjAlI7yXg2JcdW-Gtf87) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
+
+    ```Shell
+    unzip model/model_init.zip -d model
+    ```
+
+2. Train CASENet/CASENet-S/SEAL models by running the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
+    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_casenet-s', 28000, 2.5*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/model_casenet-s.txt
+    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
+    ```
+
+    You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb).
+
+#### Part 3: Testing
+**Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**. To test the network models, call the **`deploy`** function with the following input argument format:
+
+    ```Shell
+    solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
+    ```
+
+For example, to test the CASENet/CASENet-S/CASENet-C/SEAL instance-sensitive models on the SBD test set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet_iter_22000.caffemodel', './result/deploy/test/inst/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-s_iter_22000.caffemodel', './result/deploy/test/inst/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-c_iter_22000.caffemodel', './result/deploy/test/inst/casenet-c', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_seal_iter_22000.caffemodel', './result/deploy/test/inst/seal', <gpu_id>)"
+    ```
+
+    This will generate edge predictions in the **`<result_directory>`** folder. Again, the command to test non-IS models can be similarly derived by changing all **`inst`** suffixes to **`cls`** in the above commands.
+
+**Test on Cityscapes:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/cityscapes/`**. To test CASENet/CASENet-S/SEAL models on the Cityscapes validation set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_casenet.caffemodel', './result/deploy/val/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_cassenet-s.caffemodel', './result/deploy/val/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_seal.caffemodel', './result/deploy/val/seal', <gpu_id>)"
+    ```
+
+Again, we assume the testing of Cityscapes models on 12G memory GPUs. Consider decreasing the default 632x632 test crop size in **`deploy`** if you don't have sufficient GPU memories. The new size must be dividable by 8.
+
 
 ### Video Demo
 [![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)

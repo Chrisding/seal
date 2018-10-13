@@ -30,8 +30,9 @@ scale = 0.5;
 edgeType = 'regular';
 
 %% Setup parallel pool
+numWorker = 12; % Number of matlab workers for parallel computing
 delete(gcp('nocreate'));
-parpool('local', 12);
+parpool('local', numWorker);
 
 %% Generate Preprocessed Dataset
 for idx = 1:length(genDataRoot)
