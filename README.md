@@ -183,7 +183,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
     You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb).
 
-#### Part 2: Training
+**Part 3: Testing**
 
     ```Shell
     solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
