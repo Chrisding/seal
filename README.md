@@ -249,7 +249,7 @@ SEAL can also be used to automatically refine the original noisy labels of a dat
     In particular, run the following command:
     
     ```Shell
-    refine('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test_inst_orig.mat', './model/model_inst_seal_trainvaltest_iter_22000.caffemodel', './result/refine/test/inst/seal', 1)
+    refine('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test_inst_orig.mat', './model/model_inst_seal_trainvaltest_iter_22000.caffemodel', './result/refine/test/inst/seal', <gpu_id>)
     ```
 
 #### Part 5: Evaluation
