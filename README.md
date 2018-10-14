@@ -189,7 +189,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 * To test the network models, call the **`deploy`** function with the following input argument format:
 
     ```Shell
-    solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
+    deploy(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
     ```
 
 * For example, to test the CASENet/CASENet-S/CASENet-C/SEAL instance-sensitive models on the SBD test set, run the following commands, respectively:
@@ -215,6 +215,24 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     
     Again, we assume the testing of Cityscapes models on 12G memory GPUs. Consider decreasing the default 632x632 test crop size in **`deploy`** if you don't have sufficient GPU memories. The new size must be dividable by 8.
 
+#### Part 4: Evaluation
+In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
+
+* To perform batch evaluation of results on SBD and Cityscapes, run the following command:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoBatchEval.m
+    ```
+    
+    You may also choose to evaluate certain portion of the results, by looking into the code and commenting the other portions.
+    
+* To plot the precision-recall curves of results on SBD and Cityscapes, run the following command:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoGenPR.m
+    ```
 
 ### Video Demo
 [![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)
