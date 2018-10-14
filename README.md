@@ -104,7 +104,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	```
     This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
 
-    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S) | [Baidu Yun](https://pan.baidu.com/s/10tRd5EsgZ96yygSt5KLbPA), and place the tarball **`gt_reanno.tar.gz`** in **`gt_eval/`**. Run the following command:
+    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S) | [Baidu Yun](https://pan.baidu.com/s/1edB_wyauQLKfYlh_4YeNYg), and place the tarball **`gt_reanno.tar.gz`** in **`gt_eval/`**. Run the following command:
 
 	```Shell
 	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
