@@ -18,7 +18,7 @@ SEAL is released under the MIT License (refer to the LICENSE file for details).
 
 ### Introduction
 
-The repository contains the entire pipeline (including data preprocessing, training, testing, evaluation, visualization, and demo generation, etc) for **`SEAL`**.
+The repository contains the entire pipeline (including data preprocessing, training, testing, evaluation, visualization, and demo generation, etc) for **SEAL**.
 
 SEAL is a recently proposed learning framework towards edge learning under noisy labels. The framework seeks to directly generate high quality thin/crisp object semantic boundaries without any post-processing, by jointly performing edge alignment with edge learning. In particular, edge alignment is formulated as latent variable optimization and learned end-to-end during network training. For more details, please refer to the [arXiv technical report](https://arxiv.org/abs/1808.01992) and the [ECCV18 paper](http://openaccess.thecvf.com/content_ECCV_2018/papers/Zhiding_Yu_SEAL_A_Framework_ECCV_2018_paper.pdf). We highly recommend the readers refer to [arXiv](https://arxiv.org/abs/1808.01992) for latest updates in detailed description and experiments.
 
@@ -223,7 +223,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_seal.caffemodel', './result/deploy/demoVideo_stuttgart_00/seal', 1)"
     ```
     
-    The commands to test the models on demo video **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#part-5-visualization-and-demo-generation) for more details.
+    The commands to test on **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#part-5-visualization-and-demo-generation) for more details.
 
 #### Part 4: Evaluation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
