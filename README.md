@@ -2,9 +2,13 @@
 
 By Zhiding Yu, Weiyang Liu, Yang Zou, Chen Feng, Srikumar Ramalingam, B. V. K. Vijayakumar and Jan Kautz
 
+<img src="https://github.com/Chrisding/Chrisding.github.io/blob/master/Teaser/Projects/Project_SEAL.png" width="750" height="468">
+
+
 ### License
 
 SEAL is released under the MIT License (refer to the LICENSE file for details).
+
 
 ### Contents
 0. [Introduction](#introduction)
@@ -13,18 +17,20 @@ SEAL is released under the MIT License (refer to the LICENSE file for details).
 0. [Installation](#installation)
 0. [Usage](#usage)
 0. [Video Demo](#video-demo)
+0. [Note](#note)
+0. [References](#references)
 0. [Contact](#contact)
 
 
 ### Introduction
 
-The repository contains the entire pipeline (including data preprocessing, training, testing, evaluation, visualization, and demo generation, etc) for **`SEAL`**.
+The repository contains the entire pipeline (including data preprocessing, training, testing, label refine, evaluation, visualization, and demo generation, etc) for **SEAL**.
 
 SEAL is a recently proposed learning framework towards edge learning under noisy labels. The framework seeks to directly generate high quality thin/crisp object semantic boundaries without any post-processing, by jointly performing edge alignment with edge learning. In particular, edge alignment is formulated as latent variable optimization and learned end-to-end during network training. For more details, please refer to the [arXiv technical report](https://arxiv.org/abs/1808.01992) and the [ECCV18 paper](http://openaccess.thecvf.com/content_ECCV_2018/papers/Zhiding_Yu_SEAL_A_Framework_ECCV_2018_paper.pdf). We highly recommend the readers refer to [arXiv](https://arxiv.org/abs/1808.01992) for latest updates in detailed description and experiments.
 
-We use CASENet as the backbone network for SEAL since it is the state-of-the-art deep network for category-aware semantic edge detection. CASENet adopts a modified ResNet-101 architecture with dilated convolution. More details about CASENet can be found in the [paper](https://arxiv.org/abs/1705.09759) and the [prototxt file](https://github.com/Chrisding/seal/blob/master/exper/cityscapes/config/model_reweight.prototxt). Note that this code has been designed to fully support training/testing of CASENet, simply by changing a few input parameters. The original implementation of CASENet is available [here](http://www.merl.com/research/?research=license-request&sw=CASENet).
+We use CASENet as the backbone network for SEAL since it is the state-of-the-art deep network for category-aware semantic edge detection. CASENet adopts a modified ResNet-101 architecture with dilated convolution. More details about CASENet can be found in the [paper](https://arxiv.org/abs/1705.09759) and the [prototxt file](https://github.com/Chrisding/seal/blob/master/exper/cityscapes/config/model_reweight.prototxt). Note that this code has been designed to fully support training/testing CASENet by changing a few input parameters. The original implementation of CASENet is available [here](http://www.merl.com/research/?research=license-request&sw=CASENet).
 
-SEAL currently achieves the state-of-the-art category-aware semantic edge detection performance on the [Semantic Boundaries Dataset](http://home.bharathh.info/pubs/codes/SBD/download.html) and the [Cityscapes Dataset](https://www.cityscapes-dataset.com/).
+SEAL currently achieves the state-of-the-art category-aware semantic edge detection performance on the [Semantic Boundaries Dataset](http://home.bharathh.info/pubs/codes/SBD/download.html) and the [Cityscapes Dataset](https://www.cityscapes-dataset.com/). Note that the benchmarks adopted in this work differs from the original SBD benchmark, and it is recommended to use the proposed ones in future related research for more precised evaluation.
 
 
 ### Citation
@@ -131,7 +137,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
 #### Part 2: Training
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
-
+    
 1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
@@ -183,31 +189,140 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
     You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb).
 
-    ```Shell
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_casenet-s', 28000, 2.5*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/model_casenet-s.txt
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
-    ```
-
 #### Part 3: Testing
-**Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**. To test the network models, call the **`deploy`** function with the following input argument format:
+**Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
 
-Try Try Try
-
-	```Shell
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_casenet-s', 28000, 2.5*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/model_casenet-s.txt
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
-	```
-
-Try Try Try
+* To test the network models, call the **`deploy`** function with the following input argument format:
 
     ```Shell
-    solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
+    deploy(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
     ```
+
+* For example, to test the CASENet/CASENet-S/CASENet-C/SEAL instance-sensitive models on the SBD test set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet_iter_22000.caffemodel', './result/deploy/test/inst/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-s_iter_22000.caffemodel', './result/deploy/test/inst/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-c_iter_22000.caffemodel', './result/deploy/test/inst/casenet-c', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_seal_iter_22000.caffemodel', './result/deploy/test/inst/seal', <gpu_id>)"
+    ```
+
+    This will generate edge predictions in the **`<result_directory>`** folder. Again, the command to test non-IS models can be similarly derived by changing all **`inst`** suffixes to **`cls`** in the above commands.
+
+**Test on Cityscapes:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/cityscapes/`**.
+
+* To test CASENet/CASENet-S/SEAL models on the Cityscapes validation set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_casenet.caffemodel', './result/deploy/val/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_cassenet-s.caffemodel', './result/deploy/val/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_seal.caffemodel', './result/deploy/val/seal', <gpu_id>)"
+    ```
+    
+    Again, we assume the testing of Cityscapes models on 12G memory GPUs. Consider decreasing the default 632x632 test crop size in **`deploy`** if you don't have sufficient GPU memories. The new size must be dividable by 8.
+    
+* To test CASENet/CASENet-S/SEAL models on the demo video **`stuttgart_00`**, run the following commands:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_casenet.caffemodel', './result/deploy/demoVideo_stuttgart_00/casenet', 1)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_casenet-s.caffemodel', './result/deploy/demoVideo_stuttgart_00/casenet-s', 1)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_seal.caffemodel', './result/deploy/demoVideo_stuttgart_00/seal', 1)"
+    ```
+    
+    The commands to test on **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 6](#part-6-visualization-and-demo-generation) for more details.
+    
+#### Part 4: Label Refine
+SEAL can also be used to automatically refine the original noisy labels of a dataset. We take the refinement of instance-sensitive SBD labels as an example, and assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
+
+1. Train a SEAL model on the complete SBD dataset:
+
+    ```Shell
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvaltest_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal_trainvaltest', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst_trainvaltest.txt
+    ```
+
+2. Call the **`refine`** function with the following input argument format:
+
+    ```Shell
+    refine(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
+    ```
+    
+    In particular, run the following command:
+    
+    ```Shell
+    refine('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test_inst_orig.mat', './model/model_inst_seal_trainvaltest_iter_22000.caffemodel', './result/refine/test/inst/seal', <gpu_id>)
+    ```
+
+#### Part 5: Evaluation
+In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
+
+* To perform batch evaluation of results on SBD and Cityscapes, run the following command:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoBatchEval.m
+    ```
+    
+    This will generate and store evaluation results in the corresponding directories. You may also choose to evaluate certain portion of the results, by commenting the other portions of the code.
+    
+* To plot the PR curves of the results on SBD and Cityscapes, run the following command upon finishing the evaluation:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoGenPR.m
+    ```
+    
+    This will take the stored evaluation results as input, summarize the MF/AP scores of comparing methods, and generate class-wise precision-recall curves.
+    
+#### Part 6: Visualization and Demo Generation
+In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/utils`**.
+
+* To perform batch evaluation of results on SBD and Cityscapes, run the following command:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoVisualizeGT.m
+    ```
+    
+    This will generate colored visualizations of the SBD and Cityscapes ground truths.
+    
+* To generate demo videos on Cityscapes, run the following command upon finishing the visualization:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoMakeVideo.m
+    ```
+    
+    This will generate video files of SEAL predictions and comparison with CASENet on Cityscapes video sequences.
+
 
 ### Video Demo
-[![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)
+We have released a demo video of SEAL on Youtube. Click the image below to and watch the video.
+
+[<img src="https://img.youtube.com/vi/gpy20uGnlY4/maxres3.jpg" width="569" height="320">](https://www.youtube.com/watch?v=gpy20uGnlY4)
+
+
+### Note
+The benchmarks of our work differ from the original SBD benchmark [2] by imposing considerably stricter rules: 
+
+* We consider non-suppressed edges inside an object as false positives, while [2] ignores these pixels.
+
+* We accumulate false positives on any image, while the benchmark code from [2] only accumulates false positives of a certain class on images containing that class. Our benchmark can be regarded as a multiclass extension of the BSDS benchmark [1].
+
+* Both [1] and [2] by default thin the prediction before matching. We propose to match the raw predictions with unthinned ground truths whose width is kept the same as training labels. The benchmark therefore also considers the local quality of predictions. We refer to this mode as “Raw” and the previous conventional mode as “Thin”. Similar to [34], both settings use maximum F-Measure (MF) at optimal dataset scale (ODS) to evaluate the performance.
+
+* Another difference between SEAL and [2] is that we consider edges between any two instances as positive, even though the instances may belong to the same class. This differs from [2] where such edges are ignored.
+
+
+### References
+1. David R. Martin, Charless C. Fowlkes, and Jitendra Malik. "Learning to detect natural image boundaries using local brightness, color, and texture cues." IEEE Trans. PAMI 2004.
+
+2. Bharath Hariharan, Pablo Arbeláez, Lubomir Bourdev, Subhransu Maji, and Jitendra Malik. "Semantic contours from inverse detectors." In ICCV 2011.
+
+3. Gedas Bertasius, Jianbo Shi, and Lorenzo Torresani. "High-for-low and low-for-high: Efficient boundary detection from deep object features and its applications to high-level vision." In ICCV 2015.
+
+4. Anna Khoreva, Rodrigo Benenson, Mohamed Omran, Matthias Hein, and Bernt Schiele. "Weakly supervised object boundaries." In CVPR 2016.
+
+5. Zhiding Yu, Chen Feng, Ming-Yu Liu, and Srikumar Ramalingam. "CASENet: Deep category-aware semantic edge detection." In CVPR 2017.
 
 
 ### Contact
