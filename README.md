@@ -82,7 +82,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
 #### Part 1: Preprocessing
 **SBD Data:** In this part, we assume you are in the directory **`$SEAL_ROOT/data/sbd-preprocess/`**.
-1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from [Google Drive](https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo), and place the tarball **`sbd.tar.gz`** in **`data_orig/`**. Run the following command:
+1. Download the SBD dataset (with both original and CRF-preprocessed SBD ground truths) from [Google Drive](https://drive.google.com/open?id=17UrG33UI6VdHe8d1nknMw4U-ZqFZKiFo) | [Baidu Yun](https://pan.baidu.com/s/10tRd5EsgZ96yygSt5KLbPA), and place the tarball **`sbd.tar.gz`** in **`data_orig/`**. Run the following command:
 
 	```Shell
 	tar -xvzf data_orig/sbd.tar.gz -C data_orig && rm data_orig/sbd.tar.gz
@@ -104,7 +104,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
   	```
     This will create two folders (**`gt_orig_thin/`** and **`gt_orig_raw/`**) in the directory of **`gt_eval/`**, containing the thinned and unthinned evaluation ground truths from the original SBD data.
 
-    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S), and place the tarball **`gt_reanno.tar.gz`** in **`gt_eval/`**. Run the following command:
+    We do not provide the code to compute evaluation ground truths from the re-annotated SBD test set. You can download the tarball containing the precomputed ground truths from [Google Drive](https://drive.google.com/open?id=1cOTz1wqOky2XQW1AMlLTjABRaD-53Q1S) | [Baidu Yun](https://pan.baidu.com/s/10tRd5EsgZ96yygSt5KLbPA), and place the tarball **`gt_reanno.tar.gz`** in **`gt_eval/`**. Run the following command:
 
 	```Shell
 	tar -xvzf gt_eval/gt_reanno.tar.gz -C gt_eval && rm gt_eval/gt_reanno.tar.gz
@@ -138,7 +138,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 #### Part 2: Training
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
     
-1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
+1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) | [Baidu Yun](https://pan.baidu.com/s/1JlISP2mU5ESPpjxlGmnbww) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
     unzip model/model_init.zip -d model
@@ -169,11 +169,11 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvalaug_inst_crf.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_casenet-c', 22000, 5.0*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/casenet-c_inst.txt
     ```
 
-    The command to obtain CASENet/CASENet-S/CASENet-C with non-IS edge labels can be similarly derived, simply by changing all **`inst`** suffixes to **`cls`**. You can also download all pretrained models from [Google Drive](https://drive.google.com/open?id=16WNjpYVdXPzBNuU9zcVPQNogPm9rp5xd).
+    The command to obtain CASENet/CASENet-S/CASENet-C with non-IS edge labels can be similarly derived, simply by changing all **`inst`** suffixes to **`cls`**. You can also download all pretrained models from [Google Drive](https://drive.google.com/open?id=16WNjpYVdXPzBNuU9zcVPQNogPm9rp5xd) | [Baidu Yun](https://pan.baidu.com/s/1MtBqw3XTDkRCUlNfQ5xzBA).
 
 **Train on Cityscapes:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/cityscapes/`**.
 
-1. Download the init model and warm-up init models from [Google Drive](https://drive.google.com/open?id=1vLfjeSeX2jiJZjAlI7yXg2JcdW-Gtf87) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
+1. Download the init model and warm-up init models from [Google Drive](https://drive.google.com/open?id=1vLfjeSeX2jiJZjAlI7yXg2JcdW-Gtf87) | [Baidu Yun](https://pan.baidu.com/s/1CouvpI8R_IxlR5VFhQBdlQ) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
     unzip model/model_init.zip -d model
@@ -187,7 +187,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
     ```
 
-    You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb).
+    You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb) | [Baidu Yun](https://pan.baidu.com/s/1MFvykVsQXXme6kIjNhrlYg).
 
 #### Part 3: Testing
 **Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
@@ -300,7 +300,7 @@ We have released a demo video of SEAL on Youtube. Click the image below to and w
 
 [<img src="https://img.youtube.com/vi/gpy20uGnlY4/maxres3.jpg" width="569" height="320">](https://www.youtube.com/watch?v=gpy20uGnlY4)
 
-An extended demo is also available [here](https://www.youtube.com/watch?v=YJsjuIkG_cQ).
+In addition, an extended demo with results on all Cityscapes demo sequences is available [here](https://www.youtube.com/watch?v=YJsjuIkG_cQ). The demo videos can also be viewed on [Bilibili](https://www.bilibili.com/video/av33855170/).
 
 
 ### Note
