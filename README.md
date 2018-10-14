@@ -300,6 +300,8 @@ We have released a demo video of SEAL on Youtube. Click the image below to and w
 
 [<img src="https://img.youtube.com/vi/gpy20uGnlY4/maxres3.jpg" width="569" height="320">](https://www.youtube.com/watch?v=gpy20uGnlY4)
 
+An extended demo is also available [here](https://www.youtube.com/watch?v=YJsjuIkG_cQ).
+
 
 ### Note
 The benchmarks of our work differ from the original SBD benchmark [2] by imposing considerably stricter rules: 
