@@ -300,7 +300,7 @@ We have released a demo video of SEAL on Youtube. Click the image below to and w
 
 [<img src="https://img.youtube.com/vi/gpy20uGnlY4/maxres3.jpg" width="569" height="320">](https://www.youtube.com/watch?v=gpy20uGnlY4)
 
-In addition, an extended demo with results on all Cityscapes demo sequences is available [here](https://www.youtube.com/watch?v=YJsjuIkG_cQ). The demo videos can also be viewed on [Bilibili](https://www.bilibili.com/video/av33855170/).
+In addition, an extended demo with results on all the three Cityscapes video sequences is available [here](https://www.youtube.com/watch?v=YJsjuIkG_cQ). The above demo videos can also be viewed on [Bilibili](https://www.bilibili.com/video/av33855170/).
 
 
 ### Note
