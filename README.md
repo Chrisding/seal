@@ -223,7 +223,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_seal.caffemodel', './result/deploy/demoVideo_stuttgart_00/seal', 1)"
     ```
     
-    The commands to test the models on demo video **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#part5) for more details.
+    The commands to test the models on demo video **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#part-5-visualization-and-demo-generation) for more details.
 
 #### Part 4: Evaluation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
@@ -246,7 +246,7 @@ In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`*
     
     This will take the stored evaluation results as input, summarize the MF/AP scores of comparing methods, and generate class-wise precision-recall curves.
     
-#### Part5
+#### Part 5: Visualization and Demo Generation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/utils`**.
 
 * To perform batch evaluation of results on SBD and Cityscapes, run the following command:
