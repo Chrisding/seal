@@ -2,7 +2,7 @@
 
 By Zhiding Yu, Weiyang Liu, Yang Zou, Chen Feng, Srikumar Ramalingam, B. V. K. Vijayakumar and Jan Kautz
 
-<img src="https://github.com/Chrisding/Chrisding.github.io/blob/master/Teaser/Projects/Project_SEAL.png" width="750" height="467">
+<img src="https://github.com/Chrisding/Chrisding.github.io/blob/master/Teaser/Projects/Project_SEAL.png" width="750" height="468">
 
 
 ### License
@@ -17,14 +17,14 @@ SEAL is released under the MIT License (refer to the LICENSE file for details).
 0. [Installation](#installation)
 0. [Usage](#usage)
 0. [Video Demo](#video-demo)
-0. [Note](#video-demo)
-0. [Related Work](#video-demo)
+0. [Note](#note)
+0. [References](#references)
 0. [Contact](#contact)
 
 
 ### Introduction
 
-The repository contains the entire pipeline (including data preprocessing, training, testing, evaluation, visualization, and demo generation, etc) for **SEAL**.
+The repository contains the entire pipeline (including data preprocessing, training, testing, label refine, evaluation, visualization, and demo generation, etc) for **SEAL**.
 
 SEAL is a recently proposed learning framework towards edge learning under noisy labels. The framework seeks to directly generate high quality thin/crisp object semantic boundaries without any post-processing, by jointly performing edge alignment with edge learning. In particular, edge alignment is formulated as latent variable optimization and learned end-to-end during network training. For more details, please refer to the [arXiv technical report](https://arxiv.org/abs/1808.01992) and the [ECCV18 paper](http://openaccess.thecvf.com/content_ECCV_2018/papers/Zhiding_Yu_SEAL_A_Framework_ECCV_2018_paper.pdf). We highly recommend the readers refer to [arXiv](https://arxiv.org/abs/1808.01992) for latest updates in detailed description and experiments.
 
@@ -229,9 +229,30 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_seal.caffemodel', './result/deploy/demoVideo_stuttgart_00/seal', 1)"
     ```
     
-    The commands to test on **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#part-5-visualization-and-demo-generation) for more details.
+    The commands to test on **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 6](#part-6-visualization-and-demo-generation) for more details.
+    
+#### Part 4: Label Refine
+SEAL can also be used to automatically refine the original noisy labels of a dataset. We take the refinement of instance-sensitive SBD labels as an example, and assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
 
-#### Part 4: Evaluation
+1. Train a SEAL model on the complete SBD dataset:
+
+    ```Shell
+    matlab -nodisplay -r "solve('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/trainvaltest_inst_orig.mat', './model/model_init_inst_warm.caffemodel', 'model_inst_seal_trainvaltest', 22000, 5.0*10^-8, <gpu_id>, 'unweight', 1, 4, 0.02)" 2>&1 | tee ./log/seal_inst_trainvaltest.txt
+    ```
+
+2. Call the **`refine`** function with the following input argument format:
+
+    ```Shell
+    refine(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
+    ```
+    
+    In particular, run the following command:
+    
+    ```Shell
+    refine('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test_inst_orig.mat', './model/model_inst_seal_trainvaltest_iter_22000.caffemodel', './result/refine/test/inst/seal', 1)
+    ```
+
+#### Part 5: Evaluation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
 
 * To perform batch evaluation of results on SBD and Cityscapes, run the following command:
@@ -252,7 +273,7 @@ In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`*
     
     This will take the stored evaluation results as input, summarize the MF/AP scores of comparing methods, and generate class-wise precision-recall curves.
     
-#### Part 5: Visualization and Demo Generation
+#### Part 6: Visualization and Demo Generation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/utils`**.
 
 * To perform batch evaluation of results on SBD and Cityscapes, run the following command:
@@ -292,7 +313,7 @@ The benchmarks of our work differ from the original SBD benchmark [2] by imposin
 * Another difference between SEAL and [2] is that we consider edges between any two instances as positive, even though the instances may belong to the same class. This differs from [2] where such edges are ignored.
 
 
-### Reference and Related Work
+### References
 1. David R. Martin, Charless C. Fowlkes, and Jitendra Malik. "Learning to detect natural image boundaries using local brightness, color, and texture cues." IEEE Trans. PAMI 2004.
 
 2. Bharath Hariharan, Pablo Arbeláez, Lubomir Bourdev, Subhransu Maji, and Jitendra Malik. "Semantic contours from inverse detectors." In ICCV 2011.
