@@ -131,7 +131,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
 #### Part 2: Training
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
-
+    
 1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
@@ -183,28 +183,38 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 
     You can download all pretrained models from [Google Drive](https://drive.google.com/open?id=1v14HXltyr3ajxd9gFSMFkJGIibn1PFXb).
 
-    ```Shell
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_casenet-s', 28000, 2.5*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/model_casenet-s.txt
-    matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
-    ```
-
 #### Part 3: Testing
-**Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**. To test the network models, call the **`deploy`** function with the following input argument format:
+**Test on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
 
-Try Try Try
-
-	```Shell
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init.caffemodel', 'model_casenet', 28000, 5.0*10^-8, <gpu_id>, 'reweight')" 2>&1 | tee ./log/model_casenet.txt
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_casenet-s', 28000, 2.5*10^-8, <gpu_id>, 'unweight')" 2>&1 | tee ./log/model_casenet-s.txt
-	matlab -nodisplay -r "solve('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/train.mat', './model/model_init_warm.caffemodel', 'model_seal', 28000, 2.5*10^-8, <gpu_id>, 'unweight', 1, 3, 0.02)" 2>&1 | tee ./log/model_seal.txt
-	```
-
-Try Try Try
+* To test the network models, call the **`deploy`** function with the following input argument format:
 
     ```Shell
     solve(<data_root>, <file_list_path>, <model_path>, <result_directory>, <gpu_id>)
     ```
+
+* For example, to test the CASENet/CASENet-S/CASENet-C/SEAL instance-sensitive models on the SBD test set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet_iter_22000.caffemodel', './result/deploy/test/inst/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-s_iter_22000.caffemodel', './result/deploy/test/inst/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_casenet-c_iter_22000.caffemodel', './result/deploy/test/inst/casenet-c', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/sbd-preprocess/data_proc', '../../data/sbd-preprocess/data_proc/test.mat', './model/model_inst_seal_iter_22000.caffemodel', './result/deploy/test/inst/seal', <gpu_id>)"
+    ```
+
+    This will generate edge predictions in the **`<result_directory>`** folder. Again, the command to test non-IS models can be similarly derived by changing all **`inst`** suffixes to **`cls`** in the above commands.
+
+**Test on Cityscapes:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/cityscapes/`**.
+
+* To test CASENet/CASENet-S/SEAL models on the Cityscapes validation set, run the following commands, respectively:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_casenet.caffemodel', './result/deploy/val/casenet', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_cassenet-s.caffemodel', './result/deploy/val/casenet-s', <gpu_id>)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/val.mat', './model/model_seal.caffemodel', './result/deploy/val/seal', <gpu_id>)"
+    ```
+    
+    Again, we assume the testing of Cityscapes models on 12G memory GPUs. Consider decreasing the default 632x632 test crop size in **`deploy`** if you don't have sufficient GPU memories. The new size must be dividable by 8.
+
 
 ### Video Demo
 [![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)
