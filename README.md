@@ -214,6 +214,16 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
     ```
     
     Again, we assume the testing of Cityscapes models on 12G memory GPUs. Consider decreasing the default 632x632 test crop size in **`deploy`** if you don't have sufficient GPU memories. The new size must be dividable by 8.
+    
+* To test CASENet/CASENet-S/SEAL models on the demo video **`stuttgart_00`**, run the following commands:
+
+    ```Shell
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_casenet.caffemodel', './result/deploy/demoVideo_stuttgart_00/casenet', 1)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_casenet-s.caffemodel', './result/deploy/demoVideo_stuttgart_00/casenet-s', 1)"
+    matlab -nodisplay -r "deploy('../../data/cityscapes-preprocess/data_proc', '../../data/cityscapes-preprocess/data_proc/demoVideo_stuttgart_00.mat', './model/model_seal.caffemodel', './result/deploy/demoVideo_stuttgart_00/seal', 1)"
+    ```
+    
+    The commands to test the models on demo video **`stuttgart_01`** and **`stuttgart_02`** can be similarly derived. Note that the results of CASENet and SEAL on all three videos are required for generating Cityscapes demo videos. See [Part 5](#visualization-&-demo-generation) for more details.
 
 #### Part 4: Evaluation
 In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`**.
@@ -225,14 +235,38 @@ In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/eval`*
     run demoBatchEval.m
     ```
     
-    You may also choose to evaluate certain portion of the results, by looking into the code and commenting the other portions.
+    This will generate and store evaluation results in the corresponding directories. You may also choose to evaluate certain portion of the results, by commenting the other portions of the code.
     
-* To plot the precision-recall curves of results on SBD and Cityscapes, run the following command:
+* To plot the PR curves of the results on SBD and Cityscapes, run the following command upon finishing the evaluation:
 
     ```Matlab
     # In Matlab Command Window
     run demoGenPR.m
     ```
+    
+    This will take the stored evaluation results as input, summarize the MF/AP scores of comparing methods, and generate class-wise precision-recall curves.
+    
+#### Part 5: Visualization & Demo Generation
+In this part, we assume you are in the directory **`$SEAL_ROOT/lib/matlab/utils`**.
+
+* To perform batch evaluation of results on SBD and Cityscapes, run the following command:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoVisualizeGT.m
+    ```
+    
+    This will generate colored visualizations of the SBD and Cityscapes ground truths.
+    
+* To generate demo videos on Cityscapes, run the following command upon finishing the visualization:
+
+    ```Matlab
+    # In Matlab Command Window
+    run demoMakeVideo.m
+    ```
+    
+    This will generate video files of SEAL predictions and comparison with CASENet on Cityscapes video sequences.
+
 
 ### Video Demo
 [![SEAL Demo](https://img.youtube.com/vi/gpy20uGnlY4/hq3.jpg)](https://www.youtube.com/watch?v=gpy20uGnlY4)
