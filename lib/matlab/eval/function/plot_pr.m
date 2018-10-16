@@ -29,7 +29,6 @@ assert(length(scoreDir)==length(mtdNames), ...
 
 %% Collect evaluation results
 resultF = zeros(numCls, numMtd);
-resultAP = zeros(numCls, numMtd);
 for i = 1:numMtd
     scoreLst = dir([scoreDir{i, 1} '/class_*.mat']);
     numResult = size(scoreLst, 1);
@@ -38,29 +37,27 @@ for i = 1:numMtd
         idx = find(result_name=='_', 1, 'last');
         idxCls = str2double(result_name(idx+1:end-4));
         load([scoreDir{i, 1} '/class_' num2str(idxCls)])
-        resultF(idxCls, i) = result_cat{2, 1}(4);
-        resultAP(idxCls, i) = result_cat{2, 1}(8);
+        resultF(idxCls, i) = result_cls{2, 1}(4);
     end
 end
 resultF = resultF'.*100;
-resultAP = resultAP'.*100;
 
 %% Summarize evaluation results
 fprintf('====================== Summary MF-ODS ======================\n\n');
 for idxCls = 1:numCls
     fprintf('%3d %14s:  ', idxCls, categories{idxCls});
     for idxMtd = 1:numMtd
-        fprintf('%.2f   ', result_f(idxMtd, idxCls))
+        fprintf('%.2f   ', resultF(idxMtd, idxCls))
     end
     fprintf('\n');
 end
 fprintf('\n');
-MF_ODS_Mean = mean(result_f);
+MF_ODS_Mean = mean(resultF);
 fprintf('        Mean F-ODS:  ');
 for idxMtd = 1:numMtd
     fprintf('%.2f   ', MF_ODS_Mean(idxMtd));
 end
-fprintf('\n');
+fprintf('\n\n');
 
 %% Plot class-wise PR curves
 for idxCls = 1:numCls

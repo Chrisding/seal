@@ -1,16 +1,8 @@
 function visualize_gt(file_dir, list_dir, color_dir, vis_dir)
 %% Setup Parallel Pool
 num_worker = 12; % Number of matlab workers for parallel computing
-matlabVer = version('-release');
-if( str2double(matlabVer(1:4)) > 2013 || (str2double(matlabVer(1:4)) == 2013 && strcmp(matlabVer(5), 'b')) )
-    delete(gcp('nocreate'));
-    parpool('local', num_worker);
-else
-    if(matlabpool('size')>0) %#ok<*DPOOL>
-        matlabpool close
-    end
-    matlabpool open 8
-end
+delete(gcp('nocreate'));
+parpool('local', num_worker);
 
 %% Load Inputs
 s = load(list_dir);
