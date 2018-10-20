@@ -76,8 +76,13 @@ for idx = 1:length(genDataRoot)
                 % process instance-insensitive/sensitive GTs
                 GTcls = [];
                 GTcls.Boundaries = cell(numCls, 1);
+                GTcls.Segmentation = zeros(height, width);
+                GTcls.CategoriesPresent = [];
                 GTinst = [];
                 GTinst.Boundaries = cell(numCls, 1);
+                GTinst.Segmentation = zeros(height, width);
+                GTinst.Categories = [];
+                
                 for idxCls = 1:numCls
                     idxSeg = trainIdMap == idxCls-1;
                     if(sum(idxSeg(:))~=0)
@@ -85,9 +90,13 @@ for idx = 1:length(genDataRoot)
                         segMap(idxSeg) = instIdMap(idxSeg);
                         if(idx==1)
                             GTcls.Boundaries{idxCls, 1} = sparse(bwmorph(seg2edge_fast(idxSeg, edgeMapBin, radius(idx), [], edgeType), 'thin', inf));
+                            GTcls.Segmentation(idxSeg) = idxCls;
+                            GTcls.CategoriesPresent = [GTcls.CategoriesPresent; idxCls];
                             GTinst.Boundaries{idxCls, 1} = sparse(bwmorph(seg2edge_fast(segMap, edgeMapBin, radius(idx), [], edgeType), 'thin', inf));
                         else
                             GTcls.Boundaries{idxCls, 1} = sparse(imresize(seg2edge_fast(idxSeg, edgeMapBin, radius(idx), [], edgeType), scale, 'nearest'));
+                            GTcls.Segmentation(idxSeg) = idxCls;
+                            GTcls.CategoriesPresent = [GTcls.CategoriesPresent; idxCls];
                             GTinst.Boundaries{idxCls, 1} = sparse(imresize(seg2edge_fast(segMap, edgeMapBin, radius(idx), [], edgeType), scale, 'nearest'));
                         end
                     else
@@ -95,6 +104,27 @@ for idx = 1:length(genDataRoot)
                         GTinst.Boundaries{idxCls, 1} = sparse(false(height, width));
                     end
                 end
+                
+                idxInst2 = 0;
+                for idxInst = unique(instIdMap)'
+                    idxSeg = instIdMap == idxInst;
+                    idxCls = unique(trainIdMap(idxSeg));
+                    if(length(idxCls)==1)
+                        if(idxCls>=0 && idxCls<=numCls-1)
+                            idxInst2 = idxInst2 + 1;
+                            GTinst.Segmentation(idxSeg) = idxInst2;
+                            GTinst.Categories(idxInst2, 1) = idxCls + 1;
+                        end
+                    else
+                        error('Inconsistency between instIdMap and trainIdMap');
+                    end
+                end
+                
+                if(idx==2)
+                    GTcls.Segmentation = imresize(GTinst.Segmentation, scale, 'nearest');
+                    GTinst.Segmentation = imresize(GTinst.Segmentation, scale, 'nearest');
+                end
+                
                 saveGTcls([genDataClsRoot '/' fileName suffixImage(1:max(strfind(suffixImage, '.'))-1) '.mat'], GTcls); % gt/image names must be the same
                 saveGTinst([genDataInstRoot '/' fileName suffixImage(1:max(strfind(suffixImage, '.'))-1) '.mat'], GTinst); % gt/image names must be the same
                 parfor_progress();

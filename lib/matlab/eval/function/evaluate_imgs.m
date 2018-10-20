@@ -18,6 +18,7 @@ parfor idx_file = 1:num_file
     gt_fields = fieldnames(gt_load);
     gt = gt_load.(gt_fields{1});
     edge_gt = full(double(gt.Boundaries{idx_cls}));
+    edge_pred = imresize(edge_pred, size(edge_gt));
     if(margin>0)
         edge_pred = edge_pred(1+margin:end-margin, 1+margin:end-margin);
         edge_gt = edge_gt(1+margin:end-margin, 1+margin:end-margin);

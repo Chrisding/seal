@@ -102,7 +102,7 @@ for idx = 1:length(genDataRoot)
             % process instance-sensitive GTs
             GTinst = [];
             GTinst.Segmentation = gt_inst.GTinst.Segmentation;
-            GTinst.Categories = unique(gt_inst.GTinst.Categories);
+            GTinst.Categories = gt_inst.GTinst.Categories;
             labelEdgeInst = cell(numCls, 1);
             for idxCls = 1:numCls
                 labelEdgeInst{idxCls} = sparse(false(size(gt_inst.GTinst.Segmentation)));
