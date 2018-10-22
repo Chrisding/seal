@@ -2,7 +2,7 @@
 
 By Zhiding Yu, Weiyang Liu, Yang Zou, Chen Feng, Srikumar Ramalingam, B. V. K. Vijayakumar and Jan Kautz
 
-<img src="https://github.com/Chrisding/Chrisding.github.io/blob/master/teaser/projects/Project_SEAL.png" width="750" height="468">
+<img src="https://Chrisding.github.io/teaser/projects/Project_SEAL.png" width="750" height="468">
 
 
 ### License
