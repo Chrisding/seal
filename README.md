@@ -138,7 +138,7 @@ Upon successfully compiling the SEAL Caffe distribution, you can run the followi
 #### Part 2: Training
 **Train on SBD:** In this part, we assume you are in the directory **`$SEAL_ROOT/exper/sbd/`**.
     
-1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) | [Baidu Yun](https://pan.baidu.com/s/1JlISP2mU5ESPpjxlGmnbww) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
+1. Download the init model (for CASENet) and warm-up init models (for CASENet-S/CASENet-C/SEAL) from [Google Drive](https://drive.google.com/open?id=10ZNGT3Sc6jdNJa6b2U9g_4A-9srAtN1i) | [Baidu Yun](https://pan.baidu.com/s/1JkhuiAQ0PwWBypSBgq0Lag) and put the zip file **`model_init.zip`** in **`model/`**. Run the following command:
 
     ```Shell
     unzip model/model_init.zip -d model

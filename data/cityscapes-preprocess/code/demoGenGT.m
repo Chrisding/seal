@@ -135,7 +135,7 @@ for idx = 1:length(genDataRoot)
             for idxFile = 1:length(fileList)
                 countFile = countFile + 1;
                 fileName = fileList(idxFile).name(1:end-length(suffixImage));
-                dataList{countFile} = [fileName suffixImage(1:max(strfind(suffixImage, '.'))-1)]; % gt/image names must be the same
+                dataList{countFile, 1} = [fileName suffixImage(1:max(strfind(suffixImage, '.'))-1)]; % gt/image names must be the same
             end
         end
         save([genDataRoot{idx} '/' setName '.mat'], 'dataList');
