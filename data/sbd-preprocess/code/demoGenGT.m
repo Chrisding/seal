@@ -148,13 +148,13 @@ for idx = 1:length(genDataRoot)
             if(strcmp(setName, 'train'))
                 if(~valSet(idxFile, 1))
                     countTrain = countTrain+1;
-                    listTrain{countTrain} = fileName;
+                    listTrain{countTrain, 1} = fileName;
                 else
                     countVal = countVal+1;
-                    listVal{countVal} = fileName;
+                    listVal{countVal, 1} = fileName;
                 end
             else
-                listTest{idxFile} = fileName;
+                listTest{idxFile, 1} = fileName;
             end
             parfor_progress();
         end

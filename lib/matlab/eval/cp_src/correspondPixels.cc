@@ -67,8 +67,8 @@ mexFunction (
     double* match2 = mxGetPr(plhs[1]);
     memcpy(match1,m1.data(),m1.numel()*sizeof(double));
     memcpy(match2,m2.data(),m2.numel()*sizeof(double));
-    if (nlhs > 2) { plhs[2] = mxCreateScalarDouble(cost); }
-    if (nlhs > 3) { plhs[3] = mxCreateScalarDouble(oc); }
+    if (nlhs > 2) { plhs[2] = mxCreateDoubleScalar(cost); }
+    if (nlhs > 3) { plhs[3] = mxCreateDoubleScalar(oc); }
 }
 
 }; // extern "C"
